@@ -2,10 +2,32 @@
 
 How to Control Access to Resources and Data
 
+> You must be authenticated (logged in) before your request can be authorized (granted permission to access)
 
-### Terms
+---
 
-* Certificates - Symmetric and Asymmetric
+## Objective
+
+Provide overview of "Auth" concepts for further reasearch.
+
+---
+
+## Overview
+
+* Terms
+* Authentication
+  * Types and details
+* Authorization
+
+---
+
+## Terms
+
+Lets set a base line for terminology:
+
+* Certificates
+  * Symmetric
+  * Asymmetric
 * Identity Provider
 * Authentication
   * Factors
@@ -13,22 +35,25 @@ How to Control Access to Resources and Data
 
 ---
 
-### Certificates
+## Certificates
 
 Types:
 
-* Symmetric Encryption - simplest kind of encryption that involves only one secret key to cipher and decipher information
+* Symmetric Encryption
 * Asymmetric Encryption
 
 [Source - ssl2buy](https://www.ssl2buy.com/wiki/symmetric-vs-asymmetric-encryption-what-are-differences)
 
 ---
 
-### Symmetric Encryption
+## Symmetric Encryption
 
-* Uses a secret key that can either be a number, a word or a string of random letters
+* Simplest kind of encryption that involves only one secret key to cipher and decipher information
+* Secret key can be: a number, a word or a string of random letters
 * Most widely used symmetric algorithms: AES-128, AES-192, and AES-256
-* Disadvantage: all parties involved have to exchange the key
+* Disadvantage
+  * All parties involved have to exchange the key
+  * Assumes both parties are trusted
 
 ![Symmetric-Encryption](https://raw.githubusercontent.com/gregberns/auth-presentation/master/docs/Symmetric-Encryption.png)
 
@@ -36,7 +61,7 @@ Types:
 
 ---
 
-### Asymmetric Encryption
+## Asymmetric Encryption
 
 * Also known as public key cryptography
 * Uses two keys to encrypt a plain text
@@ -50,14 +75,37 @@ Types:
 
 ---
 
-### Identity Provider
+## Identity Provider
 
 * Maintains 'identities' (user credentials)
 * Provides authentication services (logins)
 
+Definition:
+
 > An identity provider (abbreviated IdP) is a system entity that creates, maintains, and manages identity information for principals while providing authentication services to relying applications within a federation or distributed network. Identity providers offer user authentication as a service.
 
 [Source - Wikipidia](https://en.wikipedia.org/wiki/Identity_provider)
+
+---
+
+## Access Delegation
+
+> Delegation is when a person authorizes another to serve as his or her representative for a particular task.
+
+Access delegation allows you to request access to another user's profile or grant someone else access to your profile.
+
+Terms:
+
+* Delegation: The act of delegating one's access to another user.
+* Delegator: A person that delegates access to another user (app)
+* Proxy: An user (app) granted access to act on behalf of a user
+* Revoke: When delegated access is withdrawn
+
+Example:
+
+I delegate access to Evernote to access my Google Email address
+
+[Source - Oracle](https://docs.oracle.com/cd/E92915_01/cs92pbr8/eng/cs/lscc/concept_UnderstandingDelegatedAccess-888000.html)
 
 ---
 
@@ -66,9 +114,11 @@ Types:
 * Can I log in?
 * Do you know who I am?
 
+Definition:
+
 > Authentication is the act of confirming the truth of an attribute of a single piece of data claimed true by an entity... authentication is the process of actually confirming that identity.
 
-> It might involve confirming the identity of a person by validating their identity documents, verifying the authenticity of a website with a digital certificate,[1] determining the age of an artifact by carbon dating, or ensuring that a product is what its packaging and labeling claim to be. 
+> It might involve confirming the identity of a person by validating their identity documents, verifying the authenticity of a website with a digital certificate, determining the age of an artifact by carbon dating, or ensuring that a product is what its packaging and labeling claim to be.
 
 [Source - Wikipidia](https://en.wikipedia.org/wiki/Authentication)
 
@@ -81,28 +131,27 @@ Types:
 Three categories:
 
 * the knowledge factors - Something the user knows - e.g. a password, partial password, pass phrase, or personal identification number (PIN), Security question
-* the ownership factors: Something the user has - e.g. wrist band, ID card, security token, implanted device, software token
+* the ownership factors: Something the user has - e.g. cell phone holding a software token, wrist band, ID card, security token, implanted device, software token
 * the inherence factors: Something the user is or does - e.g. fingerprint, retinal pattern, DNA sequence, signature, face, voice
 
 [Source - Wikipidia](https://en.wikipedia.org/wiki/Authentication#Authentication_factors)
-
 
 ---
 
 ## Authorization
 
-* Can I get a piece of data?
+* Can I get a specific piece of data?
 * Can I view, query, write, modify, or delete a piece of data?
 
 > Authorization is the function of specifying access rights/privileges to resources, which is related to information security and computer security in general and to access control in particular.
+
 [Source - Wikipidia](https://en.wikipedia.org/wiki/Authorization)
 
 ---
 
-### Authentication Specifications/Tools
+### Authentication Specifications
 
-* Simple Login - "Forms authentication", "Basic Auth"
-* Certificates
+* Simple Login - Basic Auth
 * SAML - Older XML based, requiring certs on both sides
 * OAuth 2.0 - open standard for access delegation
 * Open ID Client (OIDC) - authentication layer on top of OAuth 2.0, an authorization framework
@@ -163,14 +212,28 @@ SAML Responder = "Identity Provider"
 
 ### OAuth
 
-* Scopes - user defined rights, given to a service
+OAuth is an open standard for access delegation
+
+> A way for Internet users to grant websites or applications access to their information on other websites but without giving them the passwords.
+
+Aspects:
+
+* Scopes - defines what the 'proxy' has rights to, the user delegates these rights
+  * Example: I give Evernote access to my email address, but not access to my email content
 * Grants or Flows - ways to acquire a token
+
+[Source - Wikipedia](https://en.wikipedia.org/wiki/OAuth)
 
 ---
 
 ### OAuth Scopes
 
+Defines what the 'proxy' has rights to, the user delegates these rights
+
 * Rights the **user** gives to the service to access their data
+
+* 
+  * Example: I give Evernote access to my email address, but not access to my email content
 
 ---
 
@@ -251,9 +314,78 @@ Request/Response Flow
 
 ---
 
-## Authorization Types
-### Access control
+## Authorization
+
+
 
 
 RBAC - Role Based Access Control
 IAM - Access Management
+
+---
+
+## Role-Based Access Control (RBAC)
+
+Assigning permissions to users based on their role within an organization.
+
+* provides fine-grained control
+* offers a simple, manageable approach to access management
+* less prone to error than assigning permissions to users individually
+
+Steps:
+
+* analyze the needs of your users
+* group them into roles based on common responsibilities and needs
+* assign one or more roles to each user and one or more permissions to each role
+
+> The user-role and role-permissions relationships make it simple to perform user assignments since users no longer need to be managed individually, but instead have privileges that conform to the permissions assigned to their role(s).
+
+---
+
+## Benefits of RBAC
+
+* create systematic, repeatable assignment of permissions
+* easily audit user privileges and correct identified issues
+* quickly add and change roles, as well as implement them across APIs
+* cut down on the potential for error when assigning user permissions
+* integrate third-party users by giving them pre-defined roles
+* more effectively comply with regulatory and statutory requirements for confidentiality and privacy
+
+
+[Source - auth0](https://auth0.com/docs/authorization/concepts/rbac)
+
+---
+
+## Identity and Access Management (IAM)
+
+> A framework of policies and technologies for ensuring that the proper people in an enterprise have the appropriate access to technology resources.
+
+Identity management (IdM) is the task of controlling:
+
+* information that authenticates the identity of a user
+* information that describes information and actions they are authorized to access and/or perform.
+
+So... IAM encompases **both** Authentication and Authorization.
+
+[Source - Wikipidia](https://en.wikipedia.org/wiki/Identity_management)
+
+## Identity Management - Functions
+
+Identity management can involve four basic functions:
+
+* Pure identity function: Creation, management and deletion of identities without regard to access or entitlements
+* User access (log-on) function: For example: a smart card and its associated data used by a customer to log on to a service or services (a traditional view)
+* Service function: A system that delivers personalized, role-based, online, on-demand, multimedia (content), presence-based services to users and their devices
+* Identity Federation: A system that relies on federated identity to authenticate a user without knowing his or her password
+
+[Source - Wikipidia](https://en.wikipedia.org/wiki/Identity_management#Function)
+
+## Identity Management - Capabilities
+
+* Authentication: Verification that an entity is who/what it claims to be using a password
+* Authorization: defines what operations an entity can perform in the context of a specific application
+* Roles : Roles are groups of operations and/or other roles. Users are granted roles often related to a particular job or job function.
+* Delegation : allows local administrators to perform system modifications without a global administrator or for one user to allow another to perform actions on their behalf
+* Interchange : The SAML protocol is a prominent means used to exchange identity information between two identity domains.[12] OpenID Connect is another such protocol.
+
+[Source - Wikipidia](https://en.wikipedia.org/wiki/Identity_management#System_capabilities)
